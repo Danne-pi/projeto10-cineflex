@@ -65,7 +65,7 @@ export default function App() {
                   sessionChairs={sessionChairs}
                   setSessionChairs={setSessionChairs}
                   />}/>
-                <Route path="/finish/" element={<Finish/>} />
+                <Route path="/finish/" element={<Finish session={session} sessionChairs={sessionChairs}/>} />
             </Routes>
         </BrowserRouter>
         </>
