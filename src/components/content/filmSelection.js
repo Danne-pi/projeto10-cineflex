@@ -17,6 +17,10 @@ export default function FilmSelection(props){
 		requisicao.catch(err => {
 			console.log(err.response.data);
 		});
+
+        props.setSession(null)
+        props.setTime("--:--")
+        props.setSesDate("--/--/----")
 	}, []);
 
     function ShowFilms(){

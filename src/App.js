@@ -28,17 +28,27 @@ export default function App() {
             />
         : null}
             <Routes>
-                <Route path="/" element={<FilmSelection setFilmId = {setFilmId}/>}/>
+                <Route path="/" 
+                element={<FilmSelection
+                  setFilmId = {setFilmId}
+                  setSession={setSession}
+                  setTime={setTime}
+                  setSesDate={setSesDate}
+                  />}/>
                 <Route path="/film/:filmId"
                 element={<FilmSession 
-                  setSession={setSession}
+                  session={session}
                   time={time}
-                  setTime={setTime}
                   sesDate={sesDate}
+                  setSession={setSession}
+                  setTime={setTime}
                   setSesDate={setSesDate}
                   />}/>
                 <Route path="/session/:sessionId" 
-                element ={<SessionOverview />} />
+                element ={<SessionOverview 
+                  time={time}
+                  sesDate={sesDate}
+                  />}/>
             </Routes>
         </BrowserRouter>
         </>

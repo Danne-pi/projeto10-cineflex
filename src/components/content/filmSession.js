@@ -31,7 +31,7 @@ export default function FilmSession(props){
                 onClick={()=> {
                     props.setSesDate(item.date)
                     props.setTime(item.showtimes[0].name)
-                    props.setSession(item.id)
+                    props.setSession(item.showtimes[0].id)
                     returnToTop()
                 }}
                 className="hour">{item.showtimes[0].name}</div>
@@ -40,7 +40,7 @@ export default function FilmSession(props){
                 onClick={()=> {
                     props.setSesDate(item.date)
                     props.setTime(item.showtimes[1].name)
-                    props.setSession(item.id)
+                    props.setSession(item.showtimes[1].id)
                     returnToTop()
                 }}
                 className="hour">{item.showtimes[1].name}</div>
@@ -67,7 +67,7 @@ export default function FilmSession(props){
                     <div>
                         <h1>{filmInfo.title}</h1>
                         <h2>{props.sesDate+', '+props.time}</h2>
-                        <Link to="/">
+                        <Link to={"/session/"+props.session}>
                             <div>Prosseguir</div>
                         </Link>
                     </div>
