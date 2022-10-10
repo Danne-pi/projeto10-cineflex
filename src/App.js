@@ -5,11 +5,14 @@ import FilmSelection from "./components/content/filmSelection";
 import FilmSession from "./components/content/filmSession";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
+import SessionOverview from "./components/content/sessionOverview";
 
 
 export default function App() {
   const [filmId, setFilmId] = useState(null)
-  const [session, setSession] = useState("--/--/----, --:--")
+  const [session, setSession] = useState(null)
+  const [time, setTime] = useState("--:--")
+  const [sesDate, setSesDate] = useState("--/--/----")
 
   return (
     <>
@@ -26,7 +29,16 @@ export default function App() {
         : null}
             <Routes>
                 <Route path="/" element={<FilmSelection setFilmId = {setFilmId}/>}/>
-                <Route path="/film/:filmId" element={<FilmSession setSession = {setSession} session = {session} />}/>
+                <Route path="/film/:filmId"
+                element={<FilmSession 
+                  setSession={setSession}
+                  time={time}
+                  setTime={setTime}
+                  sesDate={sesDate}
+                  setSesDate={setSesDate}
+                  />}/>
+                <Route path="/session/:sessionId" 
+                element ={<SessionOverview />} />
             </Routes>
         </BrowserRouter>
         </>
