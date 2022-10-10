@@ -6,13 +6,26 @@ import FilmSession from "./components/content/filmSession";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import SessionOverview from "./components/content/sessionOverview";
+import Finish from "./components/content/finish";
 
+
+export function LoadBlankChairs(){
+  let arr =[]
+  for (let i = 0; i < 50; i++) {
+    arr.push(false)
+  }
+  console.log(arr)
+  return arr
+}
 
 export default function App() {
   const [filmId, setFilmId] = useState(null)
   const [session, setSession] = useState(null)
   const [time, setTime] = useState("--:--")
   const [sesDate, setSesDate] = useState("--/--/----")
+  const [sessionChairs, setSessionChairs] = useState(LoadBlankChairs)
+
+
 
   return (
     <>
@@ -43,12 +56,16 @@ export default function App() {
                   setSession={setSession}
                   setTime={setTime}
                   setSesDate={setSesDate}
+                  setSessionChairs={setSessionChairs}
                   />}/>
                 <Route path="/session/:sessionId" 
                 element ={<SessionOverview 
                   time={time}
                   sesDate={sesDate}
+                  sessionChairs={sessionChairs}
+                  setSessionChairs={setSessionChairs}
                   />}/>
+                <Route path="/finish/" element={<Finish/>} />
             </Routes>
         </BrowserRouter>
         </>

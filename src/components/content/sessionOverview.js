@@ -2,10 +2,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import FinishForm from "./form";
 
 export default function SessionOverview(props){
     const { sessionId } = useParams()
     const [sessionInfo, setSessionInfo] = useState(null);
+    const [chairIDS, setChairIDS] = useState([]);
 
     useEffect(() => {
 		const requisicao = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/showtimes/"+ sessionId +"/seats");
@@ -20,9 +22,42 @@ export default function SessionOverview(props){
 		});
 	}, []);
 
+    function SelectChair(idx, id){
+        let newArr = []
+        let idList = chairIDS
+        for (let i = 0; i < props.sessionChairs.length; i++) {
+            if(idx === i){
+                newArr.push(!props.sessionChairs[i])
+                if(!idList.includes(id)){
+                    idList.push(id)
+                }
+                else{
+                    idList = idList.filter(e => e !== id)
+                }
+            }
+            else{
+                newArr.push(props.sessionChairs[i])
+            }
+        }
+        setChairIDS(idList)
+        // console.log(idList)
+        return newArr
+    }
+
     function DrawSeats(){
-        return sessionInfo.seats.map((item)=> (
-            <Seat key={item.id}>{item.name}</Seat>
+        return sessionInfo.seats.map((item, index)=> (
+            item.isAvailable ?
+            <LibreSeat 
+                onClick={()=>props.setSessionChairs(SelectChair(index, item.id))}
+                transform={props.sessionChairs[index] ? '-4px' : '0'}
+                color={props.sessionChairs[index] ? '#0E7D71' : '#C3CFD9'}
+                key={item.id}
+                >{item.name}
+            </LibreSeat>
+            :<UsedSeat
+                key={item.id}
+                >{item.name}
+            </UsedSeat>
         ))
     }
 
@@ -60,8 +95,9 @@ export default function SessionOverview(props){
                     <h3>Indisponível</h3>
                 </div>
             </div>
+            <h3>Dados do comprador:</h3>
+            <FinishForm chairIDS={chairIDS}/>
             </div>
-
         </ThisSession>
     );
 }
@@ -83,8 +119,7 @@ const ThisSession = styled.div`
         flex-direction: column;
         justify-content: start;
         align-items: center;
-        border-top-right-radius: 25px;
-        border-top-left-radius: 25px;
+        border-radius: 25px;
 
         .film-title{
             width: 100%;
@@ -152,15 +187,30 @@ const ThisSession = styled.div`
             }
         }
     }
+    h3{
+        margin-top: 4vh;
+        margin-bottom: 1vh;
+        margin-bottom: 0;
+    }
 `
-const Seat = styled.div`
-    background-color: #C3CFD9;
+const UsedSeat = styled.div`
+    background-color: #F5D575;
     border-radius: 50px;
     width: 6vw;
     height: 6vw;
     display: flex;
     justify-content: center;
     align-items: center;
+`
+const LibreSeat = styled.div`
+    border-radius: 50px;
+    width: 6vw;
+    height: 6vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${props=> props.color};
+    transform: translateY(${props=> props.transform});
 `
 const Indicator = styled.div`
     width: 8vw;

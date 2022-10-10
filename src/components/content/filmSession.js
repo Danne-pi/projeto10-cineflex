@@ -1,7 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import styled, { withTheme } from "styled-components";
+import styled from "styled-components";
 import axios from "axios";
+import { LoadBlankChairs } from "../../App";
 
 export default function FilmSession(props){
     const { filmId } = useParams()
@@ -18,6 +19,8 @@ export default function FilmSession(props){
 		requisicao.catch(err => {
 			console.log(err.response.data);
 		});
+
+        props.setSessionChairs(LoadBlankChairs)
 	}, []);
 
     function DrawDays(){
