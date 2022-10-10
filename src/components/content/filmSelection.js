@@ -4,7 +4,7 @@ import axios from 'axios';
 
 
 
-export default function FilmSelection(){
+export default function FilmSelection(props){
     const [items, setItems] = useState(null);
 
     useEffect(() => {
@@ -21,7 +21,10 @@ export default function FilmSelection(){
 
     function ShowFilms(){
         return items.map((item)=>(
-            <div key={item.id}>
+            <div 
+            key={item.id}
+            onClick={()=> props.setFilmId(item.id)}
+            >
                 <img src={item.posterURL} alt=""/>
             </div>
         ))
@@ -48,7 +51,7 @@ export default function FilmSelection(){
 const ThisContent = styled.div`
     height: 100%;
     width: 100vw;
-
+    
     .content{
         box-shadow: 0px -1px 4px 2px rgba(0, 0, 0, 0.1);
         background-color: white;
